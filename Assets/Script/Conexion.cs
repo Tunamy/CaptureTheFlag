@@ -77,14 +77,15 @@ public class Conexion : MonoBehaviourPunCallbacks
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
         Estado("Room no Avalible: " + message);
+        CambiarPanel(panelPrincipal);
     }
 
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        Debug.Log("actualiza el panel jugadores");
+        
         //ActualizarPanelJugadores();
-        Invoke("ActualizarPanelJugadores", 2);
+        Invoke("ActualizarPanelJugadores", 1.5f);
     }
 
     
@@ -249,6 +250,7 @@ public class Conexion : MonoBehaviourPunCallbacks
         if (!String.IsNullOrEmpty(inputNickname.text))
         {
             CambiarPanel(panelRooms);
+            ActualizarPanelDeSalas();
             
             Estado("Exploring Rooms");
 

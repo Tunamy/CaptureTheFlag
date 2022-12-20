@@ -1,58 +1,86 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class CocheControl : MonoBehaviour
 {
-    // La velocidad máxima del coche
-    public float maxSpeed = 10.0f;
+    public float accelerationFactor = 30.0f;
+    public float turnFactor = 3.5f;
+    public float driftFactor = 0.95f;
+    public float friccion = 0.5f;
+    public float velocidadMaxima = 20f;
 
-    // La aceleración del coche
-    public float acceleration = 5.0f;
 
-    // La fuerza de frenado del coche
-    public float brakePower = 5.0f;
+    //Local variables
+    float accelerationInput = 0;
+    float steeringInput = 0;
+    float rotationAngle = 0;
+    //Components
+    Rigidbody2D carRigidbody2D;
 
-    // El ángulo máximo de giro del coche
-    public float maxSteeringAngle = 45.0f;
-
-    // La referencia al componente Rigidbody2D del coche
-    private Rigidbody2D rb;
-    void Start()
+    private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
+        carRigidbody2D = GetComponent<Rigidbody2D>();
     }
-    void Update()
+
+    void FixedUpdate()
     {
-        // Acelera el coche hacia adelante cuando se presiona la flecha hacia arriba
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            float currentSpeed = rb.velocity.magnitude;
-            if (currentSpeed < maxSpeed)
-            {
-                rb.AddForce(transform.up * acceleration);
-            }
-        }
+        ApplyEngineForce();
+        ApplySteering();
+        killorthogonalvelocity();
 
-        // Frena el coche cuando se suelta la flecha hacia arriba
-        if (Input.GetKeyUp(KeyCode.DownArrow))
-        {
-
-                rb.AddForce(-transform.up * brakePower);
-        }
-
-        // Gira el coche hacia la izquierda cuando se presiona la flecha hacia la izquierda
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            rb.MoveRotation(rb.rotation - maxSteeringAngle);
-        }
-
-        // Gira el coche hacia la derecha cuando se presiona la flecha hacia la derecha
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            rb.MoveRotation(rb.rotation + maxSteeringAngle);
-        }
     }
+
+    void ApplyEngineForce() {
+
+        if (carRigidbody2D.velocity.magnitude > velocidadMaxima)
+            return;
+
+        if(accelerationInput == 0) //friccion
+        {
+            carRigidbody2D.AddForce(-carRigidbody2D.velocity * friccion, ForceMode2D.Force);
+        }
+
+        //Create a force for the engine
+        Vector2 engineForceVector = transform.up * accelerationInput *accelerationFactor;
+
+        //Apply force and pushes the car forward
+        carRigidbody2D.AddForce(engineForceVector, ForceMode2D.Force);
+
+    }
+    void ApplySteering() { //giro
+
+        float velocidadMinimaParaGirar = (carRigidbody2D.velocity.magnitude / 8);
+        velocidadMinimaParaGirar = Mathf.Clamp01(velocidadMinimaParaGirar);
+
+        //Update the rotation angle based on input
+        rotationAngle -= steeringInput * turnFactor * velocidadMinimaParaGirar;
+
+        //Apply steering by rotating the car object
+        carRigidbody2D.MoveRotation(rotationAngle);
+    }
+
+    void killorthogonalvelocity() 
+    {
+
+        Vector2 forwardVelocity = transform.up * Vector2.Dot(carRigidbody2D.velocity, transform.up);
+        Vector2 rightVelocity = transform.right* Vector2.Dot(carRigidbody2D.velocity, transform.right);
+
+        carRigidbody2D.velocity = forwardVelocity + rightVelocity * driftFactor;
+
+    }
+
+    public void SetInputVector(Vector2 inputVector)  // llega la tecla que pulsamos
+    {
+
+        steeringInput = inputVector.x;
+        accelerationInput = inputVector.y;
+
+    }
+
+
 
 }
 
