@@ -82,7 +82,9 @@ public class Conexion : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        ActualizarPanelJugadores();
+        Debug.Log("actualiza el panel jugadores");
+        //ActualizarPanelJugadores();
+        Invoke("ActualizarPanelJugadores", 2);
     }
 
     
