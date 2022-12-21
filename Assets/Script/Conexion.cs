@@ -271,8 +271,15 @@ public class Conexion : MonoBehaviourPunCallbacks
 
     public void AlPulsarIniciarPartida()
     {
+        //if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount >= 2) //arranca con mas de un jugador
+        //{
+        //    PhotonNetwork.LoadLevel(1);
+        //    Destroy(this); // esta en el update y lo revisa de forma continua por lo que lo destruimos
+        //}
+
         PhotonNetwork.LoadLevel(1);
         Destroy(this);
+
     }
 
     public void AlPulsarSala(string nombreSala)

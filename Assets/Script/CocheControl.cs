@@ -1,8 +1,10 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
+
+
 
 public class CocheControl : MonoBehaviour
 {
@@ -22,14 +24,20 @@ public class CocheControl : MonoBehaviour
 
     private void Awake()
     {
-        carRigidbody2D = GetComponent<Rigidbody2D>();
+        if (GetComponent<PhotonView>().IsMine)
+        {
+            carRigidbody2D = GetComponent<Rigidbody2D>();
+        }
     }
 
     void FixedUpdate()
     {
-        ApplyEngineForce();
-        ApplySteering();
-        killorthogonalvelocity();
+        if (GetComponent<PhotonView>().IsMine)
+        {
+            ApplyEngineForce();
+            ApplySteering();
+            killorthogonalvelocity();
+        }
 
     }
 
