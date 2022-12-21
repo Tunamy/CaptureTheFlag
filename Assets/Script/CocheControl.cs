@@ -21,13 +21,13 @@ public class CocheControl : MonoBehaviour
     float rotationAngle = 0;
     //Components
     Rigidbody2D carRigidbody2D;
+    
 
     private void Awake()
     {
-        if (GetComponent<PhotonView>().IsMine)
-        {
+        
             carRigidbody2D = GetComponent<Rigidbody2D>();
-        }
+        
     }
 
     void FixedUpdate()
