@@ -21,6 +21,8 @@ public class CocheControl : MonoBehaviour
     float rotationAngle = 0;
     //Components
     Rigidbody2D carRigidbody2D;
+
+   
     
 
     private void Awake()
@@ -32,11 +34,13 @@ public class CocheControl : MonoBehaviour
 
     void FixedUpdate()
     {
+
         if (GetComponent<PhotonView>().IsMine)
         {
             ApplyEngineForce();
             ApplySteering();
             killorthogonalvelocity();
+
         }
 
     }

@@ -12,13 +12,14 @@ GameObject:
   - component: {fileID: 518242470702349261}
   - component: {fileID: 1742179204351908357}
   - component: {fileID: 873355182751162420}
+  - component: {fileID: 1107474350841617913}
   - component: {fileID: 2686906660065287681}
-  - component: {fileID: 7172320357103574936}
   - component: {fileID: 6281989861385806348}
+  - component: {fileID: 7172320357103574936}
   - component: {fileID: -1850288024811398874}
   m_Layer: 0
   m_Name: Coche2
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -89,6 +90,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1f3a485aacfe76468c65023d929a810, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1107474350841617913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 229361301929957674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32ce25ec198592c479cf5cb31e91c350, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tienesLaBandera: 0
+  banderaEnSpawn: 1
 --- !u!61 &2686906660065287681
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -98,7 +113,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 229361301929957674}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 9c1446242e798c5469e4e95f26278353, type: 2}
+  m_Material: {fileID: 6200000, guid: 0c50cccef732f894da7dc07c32b01bea, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -115,22 +130,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.47601843, y: 0.7211417}
   m_EdgeRadius: 0
---- !u!114 &7172320357103574936
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 229361301929957674}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e7cb724808c322458aa4d15f5035fa9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 0
-  m_TeleportEnabled: 0
-  m_TeleportIfDistanceGreaterThan: 3
 --- !u!114 &6281989861385806348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,6 +154,22 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &7172320357103574936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 229361301929957674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e7cb724808c322458aa4d15f5035fa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizeVelocity: 1
+  m_SynchronizeAngularVelocity: 0
+  m_TeleportEnabled: 1
+  m_TeleportIfDistanceGreaterThan: 3
 --- !u!114 &-1850288024811398874
 MonoBehaviour:
   m_ObjectHideFlags: 0

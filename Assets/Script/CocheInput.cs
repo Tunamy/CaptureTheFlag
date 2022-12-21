@@ -10,7 +10,7 @@ public class CocheInput : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (GetComponent<PhotonView>().IsMine)
+        
             cocheControl = GetComponent<CocheControl>();
         
     }
@@ -19,15 +19,14 @@ public class CocheInput : MonoBehaviour
     void Update()
     {
 
-        if (GetComponent<PhotonView>().IsMine)
-        {
+        
             Vector2 inputVector = Vector2.zero;
 
             inputVector.x = Input.GetAxis("Horizontal");
             inputVector.y = Input.GetAxis("Vertical");
 
             cocheControl.SetInputVector(inputVector);
-        }
+        
 
     }
 }
