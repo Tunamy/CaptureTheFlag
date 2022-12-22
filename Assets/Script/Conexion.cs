@@ -50,6 +50,7 @@ public class Conexion : MonoBehaviourPunCallbacks
         //Lista de Jugadores y Salas
         propiedadesJugador = new ExitGames.Client.Photon.Hashtable();
         listaSalas = new Dictionary<string, RoomInfo>();
+
     }
 
    
@@ -123,6 +124,7 @@ public class Conexion : MonoBehaviourPunCallbacks
     public void ActualizarPanelJugadores()
     {
         PhotonNetwork.NickName = inputNickname.text;
+        
 
         textNombreSala.text = "Room Name: " + PhotonNetwork.CurrentRoom.Name + "       " + PhotonNetwork.CurrentRoom.PlayerCount + "/" + PhotonNetwork.CurrentRoom.MaxPlayers;
         
@@ -146,6 +148,7 @@ public class Conexion : MonoBehaviourPunCallbacks
 
             nuevoElemento.transform.Find("txtNickname").GetComponent<TextMeshProUGUI>().text = jugador.NickName;
 
+            
             
         }
 

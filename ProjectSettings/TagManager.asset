@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Bandera
   - Meta
+  - tienebandera
   layers:
   - Default
   - TransparentFX

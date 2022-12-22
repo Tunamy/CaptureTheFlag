@@ -187,7 +187,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tienesLaBandera: 0
-  banderaEnSpawn: 1
 --- !u!61 &5970918245560096027
 BoxCollider2D:
   m_ObjectHideFlags: 0

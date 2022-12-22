@@ -6,7 +6,7 @@ using Photon.Pun;
 
 public class GameManager : MonoBehaviour
 {
-    public bool banderaEnSpawn = true;
+    public static bool banderaEnSpawn;
     
     // Start is called before the first frame update
     void Start()
@@ -20,10 +20,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void banderaSpawnCambio()
-    {
-        banderaEnSpawn = false;
-    }
     
-    
+
+
 }
