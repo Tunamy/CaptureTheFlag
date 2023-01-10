@@ -1,4 +1,5 @@
 using Photon.Pun;
+using Photon.Pun.UtilityScripts;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
@@ -6,7 +7,7 @@ using UnityEngine;
 
 
 
-public class CocheControl : MonoBehaviour
+public class CocheControl : MonoBehaviour 
 {
     public float accelerationFactor = 30.0f;
     public float turnFactor = 3.5f;
@@ -23,6 +24,19 @@ public class CocheControl : MonoBehaviour
     Rigidbody2D carRigidbody2D;
 
     
+
+    PhotonView mypv;
+
+    public bool tienesLaBandera;
+
+    public int bandera;
+
+    public static bool noHayBanderas = false;
+
+    
+    public GameObject banderaEnCoche;
+
+    public BoxCollider2D boxCollider;
    
     
 
@@ -30,8 +44,13 @@ public class CocheControl : MonoBehaviour
     {
         
             carRigidbody2D = GetComponent<Rigidbody2D>();
+            mypv = GetComponent<PhotonView>();
+
+            banderaEnCoche.SetActive(false);
+            
         
     }
+
 
     void FixedUpdate()
     {
@@ -92,6 +111,128 @@ public class CocheControl : MonoBehaviour
         accelerationInput = inputVector.y;
 
     }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!mypv.IsMine)
+            return;
+        
+
+        if (collision.CompareTag("Bandera"))
+        {
+
+            bandera = mypv.ViewID;
+
+            tienesLaBandera = (mypv.ViewID == bandera);
+           
+
+            mypv.RPC("QuienTieneLaBandera", RpcTarget.All, bandera);
+
+
+            Debug.Log("tiene la bandera" + bandera);
+
+
+            Destroy(collision.gameObject);
+            collision.gameObject.SetActive(false);
+            
+
+
+        }
+
+
+        if (collision.CompareTag("Meta") && tienesLaBandera == true)
+        {
+            
+            bandera = 0;
+
+            tienesLaBandera = (mypv.ViewID == bandera);
+
+           
+            mypv.RPC("QuienTieneLaBandera", RpcTarget.All, bandera);
+            
+
+            Destroy(collision.gameObject);
+            
+
+            noHayBanderas = true;
+            
+
+            //llamar a una funcion que instancie los 2 circulos
+        }
+
+    }
+    
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (mypv.IsMine)
+            return;
+
+
+        if (collision.gameObject.CompareTag("Player") && tienesLaBandera == true)
+        {
+
+            bandera = collision.gameObject.GetComponent<PhotonView>().ViewID;
+
+            PhotonView pvcoll = collision.gameObject.GetComponent<PhotonView>();
+
+            Debug.Log("colisiona");
+
+
+
+            pvcoll.RPC("QuienTieneLaBandera", RpcTarget.All, bandera);
+
+
+            
+        }
+
+        if (collision.gameObject.CompareTag("Player") && tienesLaBandera == true)
+        {
+            bandera = collision.gameObject.GetComponent<PhotonView>().ViewID;
+            mypv.RPC("QuienTieneLaBandera", RpcTarget.All, bandera);
+
+
+            
+        }
+
+        gameObject.tag = "Reload";
+        Invoke("EnableTag", 1.2f);
+
+
+    }
+
+   
+
+    [PunRPC]
+    void QuienTieneLaBandera(int bandera)
+    {
+       
+
+        this.bandera = bandera;
+        tienesLaBandera = (mypv.ViewID == bandera);
+        
+        if (tienesLaBandera)
+        {
+            banderaEnCoche.SetActive(true);
+        }
+        else
+        {
+            banderaEnCoche.SetActive(false);
+        }
+
+        
+
+        Debug.Log("Se ha actualizado la bandera a " + bandera + " en el cliente " + mypv.ViewID);
+
+    }
+
+    public void EnableTag() 
+    {
+        gameObject.tag = "Player";
+        
+    }
+
+    
 
 
 
