@@ -81,6 +81,7 @@ MonoBehaviour:
   bandera: -1
   banderaEnCoche: {fileID: 4189183614427620421}
   boxCollider: {fileID: 2686906660065287681}
+  gameManager: {fileID: 0}
 --- !u!114 &873355182751162420
 MonoBehaviour:
   m_ObjectHideFlags: 0

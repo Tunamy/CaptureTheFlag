@@ -37,6 +37,8 @@ public class CocheControl : MonoBehaviour
     public GameObject banderaEnCoche;
 
     public BoxCollider2D boxCollider;
+
+    public GameManager gameManager;
    
     
 
@@ -45,6 +47,7 @@ public class CocheControl : MonoBehaviour
         
             carRigidbody2D = GetComponent<Rigidbody2D>();
             mypv = GetComponent<PhotonView>();
+            
 
             banderaEnCoche.SetActive(false);
             
@@ -133,9 +136,10 @@ public class CocheControl : MonoBehaviour
             Debug.Log("tiene la bandera" + bandera);
 
 
-            Destroy(collision.gameObject);
-            collision.gameObject.SetActive(false);
+
+
             
+
 
 
         }
@@ -150,15 +154,13 @@ public class CocheControl : MonoBehaviour
 
            
             mypv.RPC("QuienTieneLaBandera", RpcTarget.All, bandera);
-            
 
-            Destroy(collision.gameObject);
+            mypv.RPC("NoHayBanderas", RpcTarget.All);
             
-
             noHayBanderas = true;
             
+            
 
-            //llamar a una funcion que instancie los 2 circulos
         }
 
     }
@@ -182,8 +184,8 @@ public class CocheControl : MonoBehaviour
 
             pvcoll.RPC("QuienTieneLaBandera", RpcTarget.All, bandera);
 
+            //pvcoll.RPC("CambiarTag", RpcTarget.All);
 
-            
         }
 
         if (collision.gameObject.CompareTag("Player") && tienesLaBandera == true)
@@ -191,12 +193,13 @@ public class CocheControl : MonoBehaviour
             bandera = collision.gameObject.GetComponent<PhotonView>().ViewID;
             mypv.RPC("QuienTieneLaBandera", RpcTarget.All, bandera);
 
+            mypv.RPC("CambiarTag", RpcTarget.All);
 
-            
         }
 
-        gameObject.tag = "Reload";
-        Invoke("EnableTag", 1.2f);
+        
+        //gameObject.tag = "Reload";
+        //Invoke("EnableTag", 1.2f);
 
 
     }
@@ -225,6 +228,21 @@ public class CocheControl : MonoBehaviour
         Debug.Log("Se ha actualizado la bandera a " + bandera + " en el cliente " + mypv.ViewID);
 
     }
+
+    [PunRPC]
+    void NoHayBanderas()
+    {
+        noHayBanderas = true;
+    }
+
+    [PunRPC]
+    void CambiarTag()
+    {
+        gameObject.tag = "Reload";
+        Invoke("EnableTag", 1.2f);
+    }
+
+   
 
     public void EnableTag() 
     {

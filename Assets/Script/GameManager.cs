@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     public float segundos;
     public GameObject contador;
 
+    public PhotonView pv;
+
     
 
     // Start is called before the first frame update
@@ -47,11 +49,12 @@ public class GameManager : MonoBehaviour
             segundos= 0;
         }
         CuentaAtras.text = Mathf.Round(segundos).ToString();
-        
 
-        if(CocheControl.noHayBanderas == true)
+
+        if (CocheControl.noHayBanderas == true)
         {
-            
+            segundos = 3;
+            contador.SetActive(true);
             Invoke("InstanciarBanderas", 3f);
             CocheControl.noHayBanderas = false;
 
@@ -60,23 +63,24 @@ public class GameManager : MonoBehaviour
 
     public void InstanciarBanderas()
     {
-        float numeroaleatorio1 = UnityEngine.Random.Range(-4, 4);
-        float numeroaleatorio2 = UnityEngine.Random.Range(-8, 8);
-        float numeroaleatorio3 = UnityEngine.Random.Range(-4, 4);
-        float numeroaleatorio4 = UnityEngine.Random.Range(-8, 8);
+        if (PhotonNetwork.IsMasterClient)
+        {
 
-        PhotonNetwork.Instantiate("Bandera", new Vector3(numeroaleatorio2, numeroaleatorio1, 0), Quaternion.identity);
-        PhotonNetwork.Instantiate("Meta", new Vector3(numeroaleatorio4, numeroaleatorio3, 0), Quaternion.identity);
+            float numeroaleatorio1 = UnityEngine.Random.Range(-4.1f, 4.1f);
+            float numeroaleatorio2 = UnityEngine.Random.Range(-8.1f, 8.1f);
+            float numeroaleatorio3 = UnityEngine.Random.Range(-4.1f, 4.1f);
+            float numeroaleatorio4 = UnityEngine.Random.Range(-8.1f, 8.1f);
 
-        CocheControl.noHayBanderas = false;
+            PhotonNetwork.Instantiate("Bandera", new Vector3(numeroaleatorio2, numeroaleatorio1, 0), Quaternion.identity);
+            PhotonNetwork.Instantiate("Meta", new Vector3(numeroaleatorio4, numeroaleatorio3, 0), Quaternion.identity);
+
+            CocheControl.noHayBanderas = false;
+        }
 
     }
 
-    [PunRPC]
-    public void InstancarBanderasPun()
-    {
-        InstanciarBanderas();
-    }
+    
+  
 
 
 
