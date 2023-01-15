@@ -1,8 +1,10 @@
 using Photon.Pun;
 using Photon.Pun.UtilityScripts;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -41,6 +43,7 @@ public class CocheControl : MonoBehaviour
 
     public BoxCollider2D boxCollider;
 
+    
     //ExitGames.Client.Photon.Hashtable propiedades;
 
     
@@ -193,9 +196,13 @@ public class CocheControl : MonoBehaviour
             //}
 
 
-            
+
+
+           
+                    PhotonNetwork.LocalPlayer.AddScore(1);
                 
-                PhotonNetwork.LocalPlayer.AddScore(1);
+            
+            
             
             
             
