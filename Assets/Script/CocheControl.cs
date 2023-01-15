@@ -33,25 +33,43 @@ public class CocheControl : MonoBehaviour
 
     public static bool noHayBanderas = false;
 
+    //public int puntuacion = 0;
+
     
     public GameObject banderaEnCoche;
+    public GameObject soyYoCirculo;
 
     public BoxCollider2D boxCollider;
 
-    public GameManager gameManager;
-   
+    //ExitGames.Client.Photon.Hashtable propiedades;
+
     
 
-    private void Awake()
+
+
+
+
+    private void Start()
     {
         
             carRigidbody2D = GetComponent<Rigidbody2D>();
             mypv = GetComponent<PhotonView>();
             
-
+            soyYoCirculo.SetActive(false);
             banderaEnCoche.SetActive(false);
-            
-        
+       
+            soyYoCirculo.SetActive(mypv.IsMine);
+
+        //    propiedades = new ExitGames.Client.Photon.Hashtable();
+
+        //if (mypv.IsMine)
+        //{
+
+        //    propiedades["puntuacion"] = puntuacion;
+        //    PhotonNetwork.LocalPlayer.SetCustomProperties(propiedades);
+
+        //}
+
     }
 
 
@@ -121,6 +139,7 @@ public class CocheControl : MonoBehaviour
         if (!mypv.IsMine)
             return;
         
+        // colision con la bandera
 
         if (collision.CompareTag("Bandera"))
         {
@@ -137,13 +156,14 @@ public class CocheControl : MonoBehaviour
 
 
 
-
             
+
 
 
 
         }
 
+        //collision con la meta
 
         if (collision.CompareTag("Meta") && tienesLaBandera == true)
         {
@@ -158,9 +178,25 @@ public class CocheControl : MonoBehaviour
             mypv.RPC("NoHayBanderas", RpcTarget.All);
             
             noHayBanderas = true;
-            
-            
 
+
+            //if (mypv.IsMine)
+            //{
+            //    puntuacion++;
+
+            //    propiedades["puntuacion"] = puntuacion;
+            //    PhotonNetwork.LocalPlayer.SetCustomProperties(propiedades);
+
+            //    Debug.Log(puntuacion);
+            //}
+
+
+            if (mypv.IsMine)
+            {
+                PhotonNetwork.LocalPlayer.AddScore(1);
+            }
+            
+            
         }
 
     }
@@ -170,6 +206,7 @@ public class CocheControl : MonoBehaviour
         if (mypv.IsMine)
             return;
 
+        //colision con otro jugador
 
         if (collision.gameObject.CompareTag("Player") && tienesLaBandera == true)
         {
@@ -184,7 +221,7 @@ public class CocheControl : MonoBehaviour
 
             pvcoll.RPC("QuienTieneLaBandera", RpcTarget.All, bandera);
 
-            //pvcoll.RPC("CambiarTag", RpcTarget.All);
+            
 
         }
 

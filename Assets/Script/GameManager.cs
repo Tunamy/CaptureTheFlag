@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using TMPro;
+using Photon.Realtime;
+using System;
+using System.Reflection;
+using Photon.Pun.UtilityScripts;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,28 +19,81 @@ public class GameManager : MonoBehaviour
 
     public PhotonView pv;
 
+    public TextMeshProUGUI[] score;
     
+    public Transform[] spawns;
+
+    public string[] coches;
+    public string[] escenarios;
+    
+
+    
+
+
 
     // Start is called before the first frame update
     private void Awake()
     {
-        
+       
     }
     void Start()
     {
 
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+
+            if (player.IsLocal) 
+            {
+                int cochealeatorio = UnityEngine.Random.Range(0, coches.Length);
+                PhotonNetwork.Instantiate(coches[cochealeatorio], spawns[0].position, spawns[0].rotation);
+            }
+
+        }
+
+        //int index = 0;
+        //foreach (Player player in PhotonNetwork.PlayerList)
+        //{
+
+
+        //    if (index <= PhotonNetwork.PlayerList.Length)
+        //    {
+
+
+        //        int cochealeatorio = UnityEngine.Random.Range(0, coches.Length);
+
+        //        PhotonNetwork.Instantiate(coches[cochealeatorio], spawns[index].position, spawns[index].rotation);
+
+
+        //    }
+        //    index++;
+        //}
+
+
+        //for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+        //{
+
+        //    Photon.Realtime.Player player = PhotonNetwork.PlayerList[i];
+
+        //    int cochealeatorio = UnityEngine.Random.Range(0, coches.Length);
+
+        //    PhotonNetwork.Instantiate(coches[cochealeatorio], spawns[i].position, spawns[i].rotation);
+
+        //}
+
+
+
+
+
 
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.Instantiate("Coche1", new Vector3(0, 0, 0), Quaternion.identity);
             Invoke("InstanciarBanderas", 5f);
+            int numeroaleatorio = UnityEngine.Random.Range(0, escenarios.Length);
+            PhotonNetwork.Instantiate(escenarios[numeroaleatorio], new Vector3(0,0,0), Quaternion.identity);
         }
             
-        else
-            PhotonNetwork.Instantiate("Coche2", new Vector3(0, 1, 0), Quaternion.identity);
-
-        
-        
+       
+           
 
     }
 
@@ -58,6 +115,9 @@ public class GameManager : MonoBehaviour
             Invoke("InstanciarBanderas", 3f);
             CocheControl.noHayBanderas = false;
 
+            ActualizarPuntuacion();
+            
+
         }
     }
 
@@ -78,6 +138,29 @@ public class GameManager : MonoBehaviour
         }
 
     }
+
+    public void ActualizarPuntuacion()
+    {
+        
+        
+            int index = 0;
+            foreach (Player player in PhotonNetwork.PlayerList)
+            {
+                // Update the score text for each player
+
+                if (index <= score.Length)
+                {
+                
+                    score[index].text = player.NickName + ": " + player.GetScore();
+
+                
+                }
+                index++;
+            }
+        
+    }
+
+    
 
     
   
