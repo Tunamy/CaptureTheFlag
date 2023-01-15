@@ -59,6 +59,8 @@ public class CocheControl : MonoBehaviour
             banderaEnCoche.SetActive(false);
        
             soyYoCirculo.SetActive(mypv.IsMine);
+            if(mypv.IsMine)
+            PhotonNetwork.LocalPlayer.SetScore(1);
 
         //    propiedades = new ExitGames.Client.Photon.Hashtable();
 
@@ -191,10 +193,10 @@ public class CocheControl : MonoBehaviour
             //}
 
 
-            if (mypv.IsMine)
-            {
+            
+                
                 PhotonNetwork.LocalPlayer.AddScore(1);
-            }
+            
             
             
         }

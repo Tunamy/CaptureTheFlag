@@ -25,8 +25,8 @@ public class GameManager : MonoBehaviour
 
     public string[] coches;
     public string[] escenarios;
-    
 
+    int minumerospawn;
     
 
 
@@ -38,17 +38,30 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-
         foreach (Player player in PhotonNetwork.PlayerList)
         {
-
-            if (player.IsLocal) 
+            if (player != PhotonNetwork.LocalPlayer)
+            {
+                minumerospawn++;
+            }
+            
+            if (player.IsLocal)
             {
                 int cochealeatorio = UnityEngine.Random.Range(0, coches.Length);
-                PhotonNetwork.Instantiate(coches[cochealeatorio], spawns[0].position, spawns[0].rotation);
+                PhotonNetwork.Instantiate(coches[cochealeatorio], spawns[minumerospawn].position, spawns[minumerospawn].rotation);
             }
 
         }
+        //foreach (Player player in PhotonNetwork.PlayerList)
+        //{
+
+        //    if (player.IsLocal) 
+        //    {
+        //        int cochealeatorio = UnityEngine.Random.Range(0, coches.Length);
+        //        PhotonNetwork.Instantiate(coches[cochealeatorio], spawns[0].position, spawns[0].rotation);
+        //    }
+
+        //}
 
         //int index = 0;
         //foreach (Player player in PhotonNetwork.PlayerList)
@@ -148,7 +161,7 @@ public class GameManager : MonoBehaviour
             {
                 // Update the score text for each player
 
-                if (index <= score.Length)
+                if (index <= PhotonNetwork.PlayerList.Length)
                 {
                 
                     score[index].text = player.NickName + ": " + player.GetScore();
