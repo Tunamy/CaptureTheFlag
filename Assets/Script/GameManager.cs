@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
     public string[] coches;
     public string[] escenarios;
 
+    Player[] allPlayers;
+
     int minumerospawn;
     
 
@@ -38,20 +40,36 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        foreach (Player player in PhotonNetwork.PlayerList)
-        {
-            if (player != PhotonNetwork.LocalPlayer)
-            {
-                minumerospawn++;
-            }
-            
-            if (player.IsLocal)
-            {
-                int cochealeatorio = UnityEngine.Random.Range(0, coches.Length);
-                PhotonNetwork.Instantiate(coches[cochealeatorio], spawns[minumerospawn].position, spawns[minumerospawn].rotation);
-            }
 
+        allPlayers = PhotonNetwork.PlayerList;
+
+        for(int i = 0; i < allPlayers.Length; i++)
+        {
+            if (allPlayers[i] == PhotonNetwork.LocalPlayer)
+            {
+                PhotonNetwork.LocalPlayer.SetScore(1);
+                int cochealeatorio = UnityEngine.Random.Range(0, coches.Length);
+                PhotonNetwork.Instantiate(coches[cochealeatorio], spawns[i].position, spawns[i].rotation);
+            }
         }
+
+        //foreach (Player player in PhotonNetwork.PlayerList)
+        //{
+        //    if (player != PhotonNetwork.LocalPlayer)
+        //    {
+        //        minumerospawn++;
+        //    }
+            
+        //    if (player.IsLocal)
+        //    {
+        //        int cochealeatorio = UnityEngine.Random.Range(0, coches.Length);
+        //        PhotonNetwork.Instantiate(coches[cochealeatorio], spawns[minumerospawn].position, spawns[minumerospawn].rotation);
+        //    }
+
+        //}
+
+
+
         //foreach (Player player in PhotonNetwork.PlayerList)
         //{
 
@@ -154,23 +172,22 @@ public class GameManager : MonoBehaviour
 
     public void ActualizarPuntuacion()
     {
-        
-        
-            int index = 0;
-            foreach (Player player in PhotonNetwork.PlayerList)
+
+        int index = 0;
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            // Update the score text for each player
+
+            if (index <= PhotonNetwork.PlayerList.Length)
             {
-                // Update the score text for each player
 
-                if (index <= PhotonNetwork.PlayerList.Length)
-                {
-                
-                    score[index].text = player.NickName + ": " + player.GetScore();
+                score[index].text = player.NickName + ": " + player.GetScore();
 
-                
-                }
-                index++;
+
             }
-        
+            index++;
+        }
+
     }
 
     
