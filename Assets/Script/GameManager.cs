@@ -53,13 +53,14 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        ActualizarPuntuacion();
         //foreach (Player player in PhotonNetwork.PlayerList)
         //{
         //    if (player != PhotonNetwork.LocalPlayer)
         //    {
         //        minumerospawn++;
         //    }
-            
+
         //    if (player.IsLocal)
         //    {
         //        int cochealeatorio = UnityEngine.Random.Range(0, coches.Length);
@@ -172,22 +173,21 @@ public class GameManager : MonoBehaviour
 
     public void ActualizarPuntuacion()
     {
-
-        int index = 0;
-        foreach (Player player in PhotonNetwork.PlayerList)
-        {
-            // Update the score text for each player
-
-            if (index <= PhotonNetwork.PlayerList.Length)
+        
+            int index = 0;
+            foreach (Player player in PhotonNetwork.PlayerList)
             {
+                // Update the score text for each player
 
-                score[index].text = player.NickName + ": " + player.GetScore();
+               
+
+                    score[index].text = player.NickName + ": " + player.GetScore();
 
 
+                
+                index++;
             }
-            index++;
-        }
-
+        
     }
 
     
