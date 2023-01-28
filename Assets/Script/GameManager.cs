@@ -147,7 +147,7 @@ public class GameManager : MonoBehaviour
             Invoke("InstanciarBanderas", 3f);
             CocheControl.noHayBanderas = false;
 
-            ActualizarPuntuacion();
+            Invoke("ActualizarPuntuacion", 0.3f);
             
 
         }
