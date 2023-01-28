@@ -177,15 +177,16 @@ public class GameManager : MonoBehaviour
             int index = 0;
             foreach (Player player in PhotonNetwork.PlayerList)
             {
-                // Update the score text for each player
-
-               
-
-                    score[index].text = player.NickName + ": " + player.GetScore();
-
-
                 
-                index++;
+             score[index].text = player.NickName + ": " + player.GetScore();
+
+                    if(player.GetScore() == 10)
+                    {
+                        Debug.Log("gana:" + player.NickName);
+                        //ganar
+                    }
+ 
+             index++;
             }
         
     }
